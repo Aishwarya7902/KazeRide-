@@ -12,7 +12,8 @@ const userSchema=new mongoose.Schema({
         lastName:{
             type:String,
             minlength:[3,'Last name must be atleast 3 characters long']
-        },
+        }
+    },
         email:{
             type:String,
             required:true,
@@ -27,7 +28,7 @@ const userSchema=new mongoose.Schema({
         socketId:{
             type:String
         }
-    }
+    
 })
 
 userSchema.methods.generateAuthToken=function(){
