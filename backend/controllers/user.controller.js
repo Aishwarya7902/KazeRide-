@@ -8,7 +8,7 @@ module.exports.registerUser=async (req,res,next)=>{
    if(!errors.isEmpty()){
        return res.status(400).json({errors:errors.array()});
    }
-   console.log(req.body)
+
    const {fullName,email,password}=req.body;
    const hashedPassword=await userModel.hashPassword(password);
 
@@ -48,4 +48,8 @@ module.exports.loginUser=async (req,res,next)=>{
     //generating token
     const token=user.generateAuthToken();
     res.status(200).json({token,user});
+}
+
+module.exports.getUserProfile= async (req,res,next)=>{
+    res.status(200).json(req.user);
 }
