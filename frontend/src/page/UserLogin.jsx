@@ -25,7 +25,7 @@ const UserLogin = () => {
                 <form onSubmit={(e)=>{
                     submitHandler(e)
                 }}>
-                    <h3 className='text-lg font-medium mb-2'>What's your email ?</h3>
+                    <h3 className='text-lg font-medium mb-2'>What's your Email?</h3>
 
                     <input
                         type="email"
