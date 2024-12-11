@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const UserSignup = () => {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("");
     const [firstName,setFirstName]=useState("");
     const [lastName,setLastName]=useState("")
     const [userData,setUserData]=useState({});
+    const navigate=useNavigate();
 
     const submitHandler=(e)=>{
        e.preventDefault();
        setUserData({
-        username:{
+        fullName:{
             firstName,
             lastName
         },
@@ -83,7 +84,7 @@ const UserSignup = () => {
                             }}
 
                     />
-                    <button className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full text-lg placeholder:text-base">Login
+                    <button className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full text-lg placeholder:text-base">Create account
                     </button>
 
                 </form>

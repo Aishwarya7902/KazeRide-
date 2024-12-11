@@ -10,7 +10,7 @@ const CaptainSignup = () => {
     const submitHandler = (e) =>{
         e.preventDefault();
         setCaptainData({
-            username:{
+            fullName:{
                 firstName,
                 lastName
             },
@@ -77,7 +77,7 @@ const CaptainSignup = () => {
                             setPassword(e.target.value)
                         }}
                     />
-                  <button className='bg-[#111] text-white font-semibold rounded mb-3 px-4 py-2 text-lg placeholder:text-base w-full'>Login</button>
+                  <button className='bg-[#111] text-white font-semibold rounded mb-3 px-4 py-2 text-lg placeholder:text-base w-full'>Create account</button>
                 </form>
                 <p className='text-center'>Already have an account?<Link to='/captain-login' className='text-blue-600'>Login</Link></p>
             </div>
