@@ -1,30 +1,34 @@
 import React from 'react'
 
-const LocationSearchPanel = () => {
-  return (
-    <div>
-        <div className='flex gap-4 items-center justify-center my-4'>
-            <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
-            <h4 className='font-medium'>24B, Near Kapoor's cafe, DAV Coding School,Patna</h4>  
-        </div>
+const LocationSearchPanel = (props) => {
 
-        <div className='flex gap-4 items-center justify-center my-4'>
-            <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
-            <h4 className='font-medium'>24B, Near Kapoor's cafe, DAV Coding School,Patna</h4>  
-        </div>
+    // sample array location
+    const locations = [
+        "24B, Near Kapoor's cafe, DAV Public School,Patna",
+        "28B, Near Malhotra's cafe, DPS Public School,Delhi",
+        "2B, Near Singhania's cafe, Mount Litera School,Shimla",
+        "2AB, Near Agarwal's cafe, St. Xavier,Goa"
+    ]
 
-        <div className='flex gap-4 items-center justify-center my-4'>
-            <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
-            <h4 className='font-medium'>24B, Near Kapoor's cafe, DAV Coding School,Patna</h4>  
-        </div>
+    return (
 
-        <div className='flex gap-4 items-center justify-center my-4'>
-            <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
-            <h4 className='font-medium'>24B, Near Kapoor's cafe, DAV Coding School,Patna</h4>  
-        </div>
+        <div>
+            {locations.map(function (elem,idx) {
+                return <div key={idx} onClick={()=>{
+                    props.setVehiclePanel(true)
+                    props.setPanelOpen(false)
+                }} className='flex gap-4 items-center justify-center my-2 border-2 p-3 rounded-xl border-gray-50 active:border-black'>
+                    <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
+                    <h4 className='font-medium'>{elem}</h4>
+                </div>
+            })}
 
-    </div>
-  )
+
+
+            
+
+        </div>
+    )
 }
 
 export default LocationSearchPanel
