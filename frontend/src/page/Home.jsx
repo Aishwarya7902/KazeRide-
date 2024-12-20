@@ -3,6 +3,8 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
+import VehiclePanel from '../components/VehiclePanel';
+import ConfirmRide from '../components/ConfirmRide';
 
 const Home = () => {
   const [pickUp, setPickUp] = useState('');
@@ -12,6 +14,8 @@ const Home = () => {
   const vehiclePanelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const [vehiclePanel, setVehiclePanel] = useState(false);
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+  const confirmRidePanelRef = useRef(null)
 
 
   const submitHandler = (e) => {
@@ -55,6 +59,20 @@ const Home = () => {
       })
     }
   }, [vehiclePanel]);
+
+
+  useGSAP(function () {
+    if (confirmRidePanel) {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: 'translateY(0)'
+      })
+    }
+    else {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [confirmRidePanel]);
 
   return (
     <div className='h-screen relative overflow-hidden'>
@@ -113,40 +131,15 @@ const Home = () => {
         </div>
       </div>
 
-      <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-8 translate-y-full'>
+      <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-10 translate-y-full pt-12'>
 
-        <i class="ri-arrow-down-wide-line"></i>
-        <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
+        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
 
-        <div className='flex items-center justify-between w-full border-2 active:border-black rounded-xl p-3 mb-2 '>
-          <img className='h-10' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
-          <div className=' w-1/2 -ml-2'>
-            <h4 className='text-base font-medium'>UberGo <span><i className="ri-user-fill"></i>4</span></h4>
-            <h5 className='text-sm font-medium'>2 mins away</h5>
-            <p className='text-xs font-normal text-gray-600'>Affordable, compact rides</p>
-          </div>
-          <h2 className='text-lg font-semibold'> ₹193.20</h2>
-        </div>
+      </div>
 
-        <div className='flex items-center justify-between w-full border-2 active:border-black rounded-xl p-3 mb-2 '>
-          <img className='h-10' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_638,w_956/v1649231091/assets/2c/7fa194-c954-49b2-9c6d-a3b8601370f5/original/Uber_Moto_Orange_312x208_pixels_Mobile.png" alt="" />
-          <div className=' w-1/2 -ml-2'>
-            <h4 className='text-base font-medium'>Moto <span><i className="ri-user-fill"></i>1</span></h4>
-            <h5 className='text-sm font-medium'>3 mins away</h5>
-            <p className='text-xs font-normal text-gray-600'>Affordable motorcycle rides</p>
-          </div>
-          <h2 className='text-lg font-semibold'> ₹65.50</h2>
-        </div>
+      <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-6 translate-y-full pt-12'>
 
-        <div className='flex items-center justify-between w-full border-2 active:border-black rounded-xl p-3 mb-2 '>
-          <img className='h-10' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png" alt="" />
-          <div className=' w-1/2 -ml-2 '>
-            <h4 className='text-base font-medium'>UberAuto <span><i className="ri-user-fill"></i>2</span></h4>
-            <h5 className='text-sm font-medium'>4 mins away</h5>
-            <p className='text-xs font-normal text-gray-600'>Affordable auto rides</p>
-          </div>
-          <h2 className='text-lg font-semibold'> ₹111.10</h2>
-        </div>
+        <ConfirmRide />
       </div>
     </div>
 
