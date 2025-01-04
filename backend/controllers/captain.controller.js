@@ -68,7 +68,7 @@ module.exports.getCaptainProfile=async (req,res,next)=>{
 }
 module.exports.logoutCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-    console.log("Token:", token); // Log the token
+    
     if (!token) {
         return res.status(400).json({ message: "No token provided" });
     }

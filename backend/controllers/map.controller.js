@@ -19,6 +19,8 @@ module.exports.getCoordinates = async (req, res, next) => {
     }
 }
 
+
+
 module.exports.getDistanceTime = async (req,res,next) =>{
     try{
       const errors=validationResult(req);
@@ -32,9 +34,28 @@ module.exports.getDistanceTime = async (req,res,next) =>{
     }
 
 
-    
+
     catch(err){
         console.error(err)
+        res.status(500).json({message:'Internal Server Error'})
+    }
+}
+
+
+
+module.exports.getAutoCompleteSuggestions=async (req,res,next) =>{
+    try{
+       const errors=validationResult(req);
+       if(!errors.isEmpty()){
+          return res.status(400).json({erros:errors.array()})
+       }
+
+       const {input} =req.query;
+       const suggestions= await mapService.getAutoCompleteSuggestions(input)
+       res.status(200).json(suggestions);
+    }
+    catch(err){
+        console.log(err)
         res.status(500).json({message:'Internal Server Error'})
     }
 }

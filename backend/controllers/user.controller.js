@@ -14,7 +14,7 @@ module.exports.registerUser = async (req, res, next) => {
 
     const { fullName, email, password } = req.body;
     // Check if required fields are present
-    if (!fullName || !fullName.firstName || !email) {
+    if (!fullName || !email) {
         return res.status(400).json({ message: 'Full Name and Email are required' });
     }
     try {
