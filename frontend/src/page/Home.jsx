@@ -39,12 +39,12 @@ const Home = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      
-      console.log('API Response:', response.data); 
+
+
       setPickupSuggestions(response.data)
-      
+
     }
-    catch(error) {
+    catch (error) {
       //handle error
       console.error('Error:', error.response?.data || error.message);
     }
@@ -59,13 +59,14 @@ const Home = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       });
-      
-      console.log(response.data); 
+
+
       setDestinationSuggestions(response.data)
-      console.log(destinationSuggestions);
+
     }
-    catch {
+    catch (error) {
       //handle error
+      console.error('Error:', error.response?.data || error.message);
     }
   }
 
@@ -183,6 +184,8 @@ const Home = () => {
           }}>
             <div className='line absolute h-16  w-1 top-[45%] left-10 bg-gray-900 rounded-full'>
             </div>
+
+
             <input
               className='bg-[#eee] text-base px-12 py-2 rounded-lg w-full mt-5'
               type="text"
@@ -211,8 +214,10 @@ const Home = () => {
           </form>
           <button
             onClick={findTrip}
-            className='bg-black text-white px-4 py-2 rounded-lg mt-3 w-full'>
+            className={`px-4 py-2 rounded-lg mt-3 w-full ${pickUp.trim() && destination.trim() ? 'bg-green-600 text-white' : 'bg-black text-white cursor-not-allowed'}`}
+            disabled={!pickUp.trim() || !destination.trim()}>
             Find Trip
+
           </button>
         </div>
 
@@ -247,7 +252,7 @@ const Home = () => {
       <div ref={VehicleFoundRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-6 translate-y-full pt-12'>
 
         <LookingForDriver
-          
+
           pickup={pickUp}
           destination={destination}
           vehicleType={vehicleType}
