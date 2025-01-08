@@ -1,34 +1,34 @@
 import React from 'react'
 
-const LocationSearchPanel = (props) => {
-
-    // sample array location
-    const locations = [
-        "24B, Near Kapoor's cafe, DAV Public School,Patna",
-        "28B, Near Malhotra's cafe, DPS Public School,Delhi",
-        "2B, Near Singhania's cafe, Mount Litera School,Shimla",
-        "2AB, Near Agarwal's cafe, St. Xavier,Goa"
-    ]
+const LocationSearchPanel = ({ suggestions, setVehiclePanel, setPanelOpen, setPickup, setDestination, activeField }) => {
+    console.log('Suggestions Passed to Panel:', suggestions);
+    const handleSuggestionClick = (suggestion) => {
+        if (activeField === 'pickup') {
+            setPickup(suggestion.description)
+        } else if (activeField === 'destination') {
+            setDestination(suggestion.description)
+        }
+        //  setVehiclePanel(true)
+        //  setPanelOpen(false)
+    }
 
     return (
-
-        <div>
-            {locations.map(function (elem,idx) {
-                return <div key={idx} onClick={()=>{
-                    props.setVehiclePanel(true)
-                    props.setPanelOpen(false)
-                }} className='flex gap-4 items-center justify-center my-2 border-2 p-3 rounded-xl border-gray-50 active:border-black'>
-                    <h2 className='bg-[#eee] h-8 w-12  rounded-full flex items-center justify-center'><i className="ri-map-pin-fill "></i></h2>
-                    <h4 className='font-medium'>{elem}</h4>
-                </div>
-            })}
-
-
-
-            
-
+        <div className="max-h-60 overflow-y-auto border rounded-lg p-2 bg-white shadow-md">
+          {suggestions.length > 0 ? (
+            suggestions.map((elem, idx) => (
+              <div key={idx} onClick={() => handleSuggestionClick(elem)} className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 cursor-pointer'>
+                <h2 className='bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full'>
+                  <i className="ri-map-pin-fill"></i>
+                </h2>
+                <h4 className='font-medium'>{elem.description}</h4>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No suggestions available</p>
+          )}
         </div>
-    )
+      );
+      
 }
 
 export default LocationSearchPanel
