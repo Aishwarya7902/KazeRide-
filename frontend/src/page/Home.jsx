@@ -158,16 +158,49 @@ const Home = () => {
   async function findTrip() {
     setVehiclePanel(true);
     setPanelOpen(false);
-    setPickUp("")
-    setDestination("")
 
-    const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
-      params:{pickup:pickUp,destination},
-      headers:{
-        Authorization:`Bearer ${localStorage.getItem('token')}`
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+      params: { pickup: pickUp, destination },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
     setFare(response.data)
+  }
+
+  async function createRide(vehicleType) {
+    if (!['auto', 'car', 'moto'].includes(vehicleType)) {
+      console.error('Invalid vehicle type:', vehicleType);
+      return;
+    }
+
+    if (!pickUp || pickUp.length < 3) {
+      alert("Pickup address is too short");
+      return;
+    }
+
+    const MIN_LENGTH = 3; // Ensure this is defined
+    if (!destination || destination.length < MIN_LENGTH) {
+      alert("Destination address is too short");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+        pickup: pickUp,
+        destination,
+        vehicleType
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      console.log(response.data)
+    }
+    catch (error) {
+      console.error('Error creating ride:', error.response?.data || error.message);
+    }
   }
 
   return (
@@ -243,14 +276,21 @@ const Home = () => {
 
       <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-10 translate-y-full pt-12'>
 
-        <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+        <VehiclePanel
+          selectVehicle={setVehicleType}
+          fare={fare}
+          setConfirmRidePanel={setConfirmRidePanel}
+          setVehiclePanel={setVehiclePanel}
+        />
 
       </div>
 
       <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0  bg-white px-3 py-6 translate-y-full pt-12'>
 
         <ConfirmRide
+          createRide={createRide}
           pickup={pickUp}
+          fare={fare}
           destination={destination}
           vehicleType={vehicleType}
           setVehicleFound={setVehicleFound}
@@ -261,7 +301,9 @@ const Home = () => {
 
         <LookingForDriver
 
+          createRide={createRide}
           pickup={pickUp}
+          fare={fare}
           destination={destination}
           vehicleType={vehicleType}
           setVehicleFound={setVehicleFound} />
