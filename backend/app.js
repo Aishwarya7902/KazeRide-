@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 app.get("/",(req,res)=>{
-    res.send("Hello World")
+    res.send("Server is running!")
 });
 
 
