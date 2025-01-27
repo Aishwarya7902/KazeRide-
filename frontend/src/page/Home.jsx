@@ -35,9 +35,12 @@ const Home = () => {
   const [vehicleType, setVehicleType] = useState(null);
 
 
-  useEffect(()=>{
-     socket.emit("join",{userType:"user",userId:user._id})
-  },[user])
+  useEffect(() => {
+    if (user && user._id) {
+      socket.emit("join", { userType: "user", userId: user._id });
+    }
+  }, [user]);
+  
 
 
   const handlePickupChange = async (e) => {
