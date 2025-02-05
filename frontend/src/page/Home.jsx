@@ -21,8 +21,8 @@ const Home = () => {
   const waitingForDriverPanelRef = useRef(null);
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
-  const {socket}=useContext(SocketContext);
-  const {user} =useContext(userDataContext);
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(userDataContext);
 
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
@@ -33,14 +33,22 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
-
+  const [ride, setRide] = useState(null)
 
   useEffect(() => {
-    if (user && user._id) {
-      socket.emit("join", { userType: "user", userId: user._id });
-    }
+    
+      socket.emit("join", { userType: "user", userId: user?._id });
+    
   }, [user]);
+
   
+
+
+  socket.on('ride-confirmed', ride => {
+    setVehicleFound(false)
+    setWaitingForDriverpanel(true)
+    setRide(ride)
+  })
 
 
   const handlePickupChange = async (e) => {
@@ -181,39 +189,18 @@ const Home = () => {
     setFare(response.data)
   }
 
-  async function createRide(vehicleType) {
-    if (!['auto', 'car', 'moto'].includes(vehicleType)) {
-      console.error('Invalid vehicle type:', vehicleType);
-      return;
-    }
+  async function createRide() {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+      pickup:pickUp,
+      destination,
+      vehicleType
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
 
-    if (!pickUp || pickUp.length < 3) {
-      alert("Pickup address is too short");
-      return;
-    }
 
-    const MIN_LENGTH = 3; // Ensure this is defined
-    if (!destination || destination.length < MIN_LENGTH) {
-      alert("Destination address is too short");
-      return;
-    }
-
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
-        pickup: pickUp,
-        destination,
-        vehicleType
-      }, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-
-      console.log(response.data)
-    }
-    catch (error) {
-      console.error('Error creating ride:', error.response?.data || error.message);
-    }
   }
 
   return (

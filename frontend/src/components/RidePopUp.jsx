@@ -11,7 +11,7 @@ const RidePopUp = (props) => {
             <div className='flex items-center justify-between mt-4 p-3 bg-yellow-400 rounded-lg'>
                 <div className='flex items-center gap-3'>
                     <img className='h-12 w-12 rounded-full object-cover' src="https://tse2.mm.bing.net/th?id=OIP.vK7oBGZ8oZgaK4lWEWd-bwHaJO&pid=Api&P=0&h=220" alt="" />
-                    <h2 className='text-lg font-medium'>Anjali Srivastava</h2>
+                    <h2 className='text-lg font-medium'>{props.ride?.user.fullName.firstName + " " + props.ride?.user.fullName.lastName}</h2>
                 </div>
                 <h5 className='text-lg font-medium'>2.2 Km</h5>
             </div>
@@ -24,7 +24,7 @@ const RidePopUp = (props) => {
                         <i className=" text-lg ri-map-pin-fill"></i>
                         <div >
                             <h3 className='font-medium text-lg'>562/11-A</h3>
-                            <p className='text-sm  text-gray-600 -mt-1'>Kaikondrahalli, Bengaluru, Karnataka</p>
+                            <p className='text-sm  text-gray-600 -mt-1'>{props.ride?.pickup}</p>
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@ const RidePopUp = (props) => {
                         <i className=" text-lg ri-map-pin-2-fill"></i>
                         <div >
                             <h3 className='font-medium text-lg'>562/11-A</h3>
-                            <p className='text-sm  text-gray-600 -mt-1'>Kaikondrahalli, Bengaluru, Karnataka</p>
+                            <p className='text-sm  text-gray-600 -mt-1'>{props.ride?.destination}</p>
                         </div>
                     </div>
 
@@ -40,21 +40,25 @@ const RidePopUp = (props) => {
                     <div className='flex items-center gap-5 p-3 '>
                         <i className="ri-cash-line"></i>
                         <div >
-                            <h3 className='font-medium text-lg'>₹193.20</h3>
-                            <p className='text-sm  text-gray-600 -mt-1'>Cash Cash</p>
+                            <h3 className='font-medium text-lg'>₹{props.ride?.fare}</h3>
+                            <p className='text-sm  text-gray-600 -mt-1'>Cash </p>
                         </div>
                     </div>
 
                 </div>
                 <div className='flex items-center justify-between w-full mt-5'>
 
+
+
+                    <button onClick={() => {
+                        props.setConfirmRidePopUpPanel(true)
+                        props.confirmRide()
+                    }} className=' bg-green-600 text-white font-semibold p-3 px-10 rounded-xl '>Accept</button>
+
                     <button onClick={() => {
                         props.setRidePopUpPanel(false)
                     }} className=' bg-gray-200 text-gray-700 font-semibold p-3 px-10 rounded-xl '>Ignore</button>
 
-                    <button onClick={() => {
-                        props.setConfirmRidePopUpPanel(true)
-                    }} className=' bg-green-600 text-white font-semibold p-3 px-10 rounded-xl '>Accept</button>
                 </div>
             </div>
         </div>
